@@ -23,53 +23,113 @@
         .toolbar {
             background: #1e3a8a;
             color: white;
-            padding: 12px 20px;
+            padding: 14px 20px;
             font-family: sans-serif;
             font-size: 13px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            gap: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
         }
-        .toolbar-row {
+        .toolbar-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 8px;
+            font-size: 13px;
+        }
+        .toolbar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 10px;
+            align-items: center;
         }
         .control-group {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 6px 12px;
+            flex-direction: column;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 8px 12px;
             border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .control-group label {
             font-weight: bold;
             font-size: 11px;
+            color: #93c5fd;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .control-group input[type="date"],
         .control-group input[type="text"] {
-            padding: 4px 8px;
+            padding: 5px 8px;
             border-radius: 4px;
             border: 1px solid #cbd5e1;
             font-size: 12px;
             color: #0d233a;
+            background: #ffffff;
+            width: 100%;
         }
         .btn {
             background: #2563eb;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
             font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: background 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         .btn:hover {
             background: #1d4ed8;
+        }
+        .prayer-widget {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            grid-column: span 2;
+        }
+        .prayer-title {
+            font-weight: bold;
+            color: #93c5fd;
+            font-size: 11px;
+            border-bottom: 1px dashed rgba(255,255,255,0.2);
+            padding-bottom: 2px;
+        }
+        .prayer-times-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .prayer-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 3px 8px;
+            border-radius: 4px;
+            flex: 1;
+        }
+        .prayer-item span:first-child {
+            font-size: 9px;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+        .prayer-item span:last-child {
+            font-weight: bold;
+            font-size: 11px;
         }
         .page {
             width: 277mm;
@@ -281,33 +341,51 @@
 <body>
 
 <div class="toolbar no-print">
-
-    
-    <div class="toolbar-row">
-        <div class="control-group">
-            <label for="inputSppg">Teks SPPG / Instansi:</label>
-            <input type="text" id="inputSppg" value="SATUAN PELAYANAN PEMENUHAN GIZI (SPPG) KOTA SERANG SERANG SERANG 2" style="width: 250px;" oninput="updateAllCards()">
-        </div>
-        <div class="control-group">
-            <label for="inputDate">Tanggal:</label>
-            <input type="date" id="inputDate" value="2026-06-06" oninput="updateAllCards()">
-        </div>
-        <div class="control-group">
-            <label for="inputTime">Jam Batas:</label>
-            <input type="text" id="inputTime" value="Jam 12.00 WIB" style="width: 95px;" oninput="updateAllCards()">
-        </div>
+    <div class="toolbar-header">
+      
     </div>
+    
+    <div class="toolbar-grid">
+        <div class="control-group">
+            <label for="inputSppg">Teks SPPG / Instansi</label>
+            <input type="text" id="inputSppg" value="SATUAN PELAYANAN PEMENUHAN GIZI (SPPG) KOTA SERANG SERANG SERANG 2" oninput="updateAllCards()">
+        </div>
+        
+        <div class="control-group">
+            <label for="inputDate">Tanggal Label</label>
+            <input type="date" id="inputDate" oninput="updateAllCards()">
+        </div>
+        
+        <div class="control-group">
+            <label for="inputTime">Jam Batas Konsumsi</label>
+            <input type="text" id="inputTime" value="Jam 12.00 WIB" oninput="updateAllCards()">
+        </div>
 
-    <div class="toolbar-row">
         <div class="control-group">
-            <label for="inputNote">Catatan / Keterangan:</label>
-            <input type="text" id="inputNote" value="Segera dikonsumsi" style="width: 160px;" oninput="updateAllCards()">
+            <label for="inputNote">Catatan / Keterangan</label>
+            <input type="text" id="inputNote" value="Segera dikonsumsi" oninput="updateAllCards()">
         </div>
+
         <div class="control-group">
-            <label for="inputWarning">Teks Perhatian:</label>
-            <input type="text" id="inputWarning" value="DILARANG MEMBAWA PULANG MAKANAN MBG" style="width: 260px;" oninput="updateAllCards()">
+            <label for="inputWarning">Teks Peringatan</label>
+            <input type="text" id="inputWarning" value="DILARANG MEMBAWA PULANG MAKANAN MBG " oninput="updateAllCards()">
         </div>
-        <button class="btn" onclick="window.print()">🖨️ Cetak / Print Halaman</button>
+
+        <!-- Widget Informasi Jadwal Sholat Kota Serang -->
+        <div class="prayer-widget">
+            <div class="prayer-title">🕌 Jadwal Sholat Hari Ini (Kota Serang)</div>
+            <div class="prayer-times-row">
+                <div class="prayer-item"><span>Subuh</span><span id="pSubuh">--:--</span></div>
+                <div class="prayer-item"><span>Dzuhur</span><span id="pDzuhur">--:--</span></div>
+                <div class="prayer-item"><span>Ashar</span><span id="pAshar">--:--</span></div>
+                <div class="prayer-item"><span>Maghrib</span><span id="pMaghrib">--:--</span></div>
+                <div class="prayer-item"><span>Isya</span><span id="pIsya">--:--</span></div>
+            </div>
+        </div>
+
+        <div style="display: flex; align-items: flex-end; height: 100%;">
+            <button class="btn" onclick="window.print()" style="width: 100%; height: 42px;">🖨️ Cetak / Print</button>
+        </div>
     </div>
 </div>
 
@@ -316,8 +394,15 @@
 </div>
 
 <script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('inputDate').value = today;
+        updateAllCards();
+        fetchPrayerTimes();
+    });
+
     function formatDate(dateString) {
-        if (!dateString) return "Rabu, 06 Juni 2026";
+        if (!dateString) return "";
         const parts = dateString.split("-");
         if (parts.length !== 3) return dateString;
         const year = parts[0];
@@ -346,10 +431,26 @@
         document.querySelectorAll('.js-time').forEach(el => el.textContent = timeVal);
         document.querySelectorAll('.js-note').forEach(el => el.textContent = noteVal);
         
-        // Ganti teks peringatan dan ubah spasi/titik jadi baris baru jika perlu, atau gunakan langsung
         document.querySelectorAll('.js-warning').forEach(el => {
             el.innerHTML = warningVal.replace(/JIKA/i, '<br>JIKA');
         });
+    }
+
+    async function fetchPrayerTimes() {
+        try {
+            const response = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Serang&country=Indonesia&method=20');
+            const data = await response.json();
+            if (data && data.data && data.data.timings) {
+                const timings = data.data.timings;
+                document.getElementById('pSubuh').textContent = timings.Fajr;
+                document.getElementById('pDzuhur').textContent = timings.Dhuhr;
+                document.getElementById('pAshar').textContent = timings.Asr;
+                document.getElementById('pMaghrib').textContent = timings.Maghrib;
+                document.getElementById('pIsya').textContent = timings.Isha;
+            }
+        } catch (error) {
+            console.error("Gagal memuat jadwal sholat:", error);
+        }
     }
 
     const container = document.getElementById('cardContainer');
@@ -380,7 +481,7 @@
                     <div class="sec-title">BATAS KONSUMSI</div>
                     <div class="expiry-text">Maksimal jam:</div>
                     <div class="display-box">
-                        <span class="display-date js-date">Rabu, 06 Juni 2026</span>
+                        <span class="display-date js-date"></span>
                         <span class="display-time js-time">Jam 12.00 WIB</span>
                         <span class="display-note js-note">Segera dikonsumsi</span>
                     </div>
@@ -406,7 +507,6 @@
     }
     
     container.innerHTML = cardsHTML;
-    updateAllCards();
 </script>
 
 </body>
